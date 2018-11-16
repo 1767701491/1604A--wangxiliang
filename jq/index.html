@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div onclick="arr($(this))" id="one" >加一个</div>
+    <div id="upNum">
+        <input type="text"/>
+        <a href="javascript:void(0)">删了</a>
+    </div>
+    <div id="getUpNum">
+
+    </div>
+    <div id="two">two</div>
+    <div class="four">获取倒计时</div>
+    <div style="height: 20px;background-color:black;width: 70px;"></div>
+    <div style="height: 20px;background-color:black;width: 20px;"></div>
+    <div style="height: 30px;background-color:black;width: 20px;"></div>
+    <button>发射</button>
+</body>
+</html>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+    });
+    $('.four').click(function(){
+        var _this = $(this);
+        var gotm = 1546272000;
+        $.ajax({
+            url:'index.php',
+            type:'get',
+            success:function(res){
+                var tm = res;
+                var nt = gotm-tm;
+                setInterval(function()
+                {
+                    var month = Math.floor(nt/60/60/24/30);
+                    var day = Math.floor((nt/60/60/24)-(month*30));
+                    var hour = Math.floor(nt/(60*60)-(month*30*24)-(day*24));
+                    var minute = Math.floor((nt/60)-(month*30*24*60)-(day*24*60)-(hour*60));
+                    var min = Math.floor(nt-(minute*60)-(month*30*24*60*60)-(day*24*60*60)-(hour*60*60));
+                    nt--;
+                    var str = "距离2019年01月01日还有"+month+"月"+day+"天"+hour+"时"+minute+"分"+min+"秒";
+                    _this.html(str);
+                },1000);
+            }
+        })
+    })
+    function arr(rrr)
+    {
+        $a = $('#upNum').clone();
+        $('#getUpNum').append($a);
+    }
+    $(document).on('click','#getUpNum a',function(){
+        $(this).closest("#upNum").remove();
+    })
+</script>
